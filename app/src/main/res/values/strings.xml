@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">OCR Lab</string>
+    <string name="open_file">Apri file</string>
+</resources>
