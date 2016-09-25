@@ -21,6 +21,9 @@ jobject ParseRGB(
         const png_infop &info_ptr,
         bool alphaChannel);
 
+jint GetColor(JNIEnv *env, const png_byte red, const png_byte green,
+              const png_byte blue);
+
 jint GetColor(JNIEnv *env, const png_byte alpha, const png_byte red, const png_byte green,
               const png_byte blue);
 
@@ -94,6 +97,16 @@ Java_com_reviso_marcello_1ocrlab_ocrlab_MainActivity_loadPng(
         case PNG_COLOR_TYPE_RGB_ALPHA:
             bitmap = ParseRGB(env, width, height, png_ptr, info_ptr, true);
             break;
+        case PNG_COLOR_TYPE_GRAY:
+            bitmap = NULL;
+            break;
+        case PNG_COLOR_TYPE_GRAY_ALPHA:
+            bitmap = NULL;
+            break;
+        case PNG_COLOR_TYPE_PALETTE:
+            png_set_palette_to_rgb(png_ptr);
+            bitmap = ParseRGB(env, width, height, png_ptr, info_ptr, false);
+            break;
         default:
             bitmap = NULL;
             break;
@@ -159,7 +172,13 @@ jobject ParseRGB(
             const png_byte blue = rowData[byteIndex++];
             const png_byte alpha = (const png_byte) (alphaChannel ? rowData[byteIndex++] : 0);
 
-            jint color = GetColor(env, alpha, red, green, blue);
+            jint color;
+            if (alphaChannel) {
+                color = GetColor(env, alpha, red, green, blue);
+            }
+            else {
+                color = GetColor(env, red, green, blue);
+            }
             colors[colorIndex++] = color;
         }
     }
@@ -190,5 +209,17 @@ jint GetColor(JNIEnv *env, const png_byte alpha, const png_byte red, const png_b
     }
     jmethodID argbMethod = env->GetStaticMethodID(colorClass, "argb", "(IIII)I");
     return env->CallStaticIntMethod(colorClass, argbMethod, (jint) alpha, (jint) red, (jint) green,
+                                    (jint) blue);
+}
+
+jint GetColor(JNIEnv *env, const png_byte red, const png_byte green,
+              const png_byte blue) {
+    // static int argb(int alpha, int red, int green, int blue)
+    static jclass colorClass = NULL;
+    if (colorClass == NULL) {
+        colorClass = env->FindClass("android/graphics/Color");
+    }
+    jmethodID argbMethod = env->GetStaticMethodID(colorClass, "rgb", "(III)I");
+    return env->CallStaticIntMethod(colorClass, argbMethod, (jint) red, (jint) green,
                                     (jint) blue);
 }
