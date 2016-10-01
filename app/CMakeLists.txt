@@ -145,6 +145,57 @@ add_library( # Sets the name of the library.
  )
 
 add_library( # Sets the name of the library.
+             com-reviso-marcello-ocrlab-tiff
+
+             # Sets the library as a shared library.
+             SHARED
+
+             # Provides a relative path to your source file(s).
+             # Associated headers in the same location as their source
+             # file are automatically included.
+
+            src/main/cpp/tiff/tif_aux.c
+            src/main/cpp/tiff/tif_close.c
+            src/main/cpp/tiff/tif_codec.c
+            src/main/cpp/tiff/tif_color.c
+            src/main/cpp/tiff/tif_compress.c
+            src/main/cpp/tiff/tif_dir.c
+            src/main/cpp/tiff/tif_dirinfo.c
+            src/main/cpp/tiff/tif_dirread.c
+            src/main/cpp/tiff/tif_dirwrite.c
+            src/main/cpp/tiff/tif_dumpmode.c
+            src/main/cpp/tiff/tif_error.c
+            src/main/cpp/tiff/tif_extension.c
+            src/main/cpp/tiff/tif_fax3.c
+            src/main/cpp/tiff/tif_fax3sm.c
+            src/main/cpp/tiff/tif_flush.c
+            src/main/cpp/tiff/tif_getimage.c
+            src/main/cpp/tiff/tif_jbig.c
+            src/main/cpp/tiff/tif_jpeg_12.c
+            src/main/cpp/tiff/tif_jpeg.c
+            src/main/cpp/tiff/tif_luv.c
+            src/main/cpp/tiff/tif_lzma.c
+            src/main/cpp/tiff/tif_lzw.c
+            src/main/cpp/tiff/tif_next.c
+            src/main/cpp/tiff/tif_ojpeg.c
+            src/main/cpp/tiff/tif_open.c
+            src/main/cpp/tiff/tif_packbits.c
+            src/main/cpp/tiff/tif_pixarlog.c
+            src/main/cpp/tiff/tif_predict.c
+            src/main/cpp/tiff/tif_print.c
+            src/main/cpp/tiff/tif_read.c
+            src/main/cpp/tiff/tif_strip.c
+            src/main/cpp/tiff/tif_swab.c
+            src/main/cpp/tiff/tif_thunder.c
+            src/main/cpp/tiff/tif_tile.c
+            src/main/cpp/tiff/tif_unix.c
+            src/main/cpp/tiff/tif_version.c
+            src/main/cpp/tiff/tif_warning.c
+            src/main/cpp/tiff/tif_write.c
+            src/main/cpp/tiff/tif_zip.c
+ )
+
+add_library( # Sets the name of the library.
              com-reviso-marcello-ocrlab-native-lib
 
              # Sets the library as a shared library.
@@ -160,6 +211,7 @@ include_directories(
     src/main/cpp/z
     src/main/cpp/png
     src/main/cpp/jpeg
+    src/main/cpp/tiff
     src/main/cpp/native-lib
     )
 
@@ -181,6 +233,14 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
+                       com-reviso-marcello-ocrlab-tiff
+                       com-reviso-marcello-ocrlab-z
+
+                       # Links the target library to the log library
+                       # included in the NDK.
+                       ${log-lib} )
+
+target_link_libraries( # Specifies the target library.
                        com-reviso-marcello-ocrlab-png
                        com-reviso-marcello-ocrlab-z
 
@@ -190,6 +250,7 @@ target_link_libraries( # Specifies the target library.
 
 target_link_libraries( # Specifies the target library.
                        com-reviso-marcello-ocrlab-native-lib
+                       com-reviso-marcello-ocrlab-tiff
                        com-reviso-marcello-ocrlab-png
                        com-reviso-marcello-ocrlab-jpeg
 
