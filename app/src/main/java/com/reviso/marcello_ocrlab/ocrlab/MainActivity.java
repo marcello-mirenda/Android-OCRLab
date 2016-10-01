@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -22,7 +23,13 @@ public class MainActivity extends AppCompatActivity {
 
     // Used to load the 'native-lib' library on application startup.
     static {
-        System.loadLibrary("native");
+        try {
+            System.loadLibrary("com-reviso-marcello-ocrlab-native-lib");
+        }
+        catch (Exception ex)
+        {
+            Log.e("OCRLab", "static initializer: ", ex);
+        }
     }
 
     @Override
@@ -64,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
         // To search for all documents available via installed storage providers, it would be
         // "*/*".
-        intent.setType("image/png");
+        intent.setType("image/jpeg");
 
         startActivityForResult(intent, READ_REQUEST_CODE);
         // END_INCLUDE (use_open_document_intent)
@@ -92,13 +99,27 @@ public class MainActivity extends AppCompatActivity {
                 assert parcelFileDescriptor != null;
                 FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
                 FileInputStream stream = new FileInputStream(fileDescriptor);
-                Bitmap image = loadPng(stream);
+                Bitmap image = loadJpeg(stream);
                 ImageView imageView = (ImageView) findViewById(R.id.imageView);
                 assert imageView != null;
                 imageView.setImageBitmap(image);
+                //imageView.setImageBitmap(scaleDown(image, 1080, false));
             }
             // END_INCLUDE (parse_open_document_response)
         }
+    }
+
+    public static Bitmap scaleDown(Bitmap realImage, float maxImageSize,
+                                   boolean filter) {
+        float ratio = Math.min(
+                (float) maxImageSize / realImage.getWidth(),
+                (float) maxImageSize / realImage.getHeight());
+        int width = Math.round((float) ratio * realImage.getWidth());
+        int height = Math.round((float) ratio * realImage.getHeight());
+
+        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
+                height, filter);
+        return newBitmap;
     }
 
     /**
@@ -107,4 +128,5 @@ public class MainActivity extends AppCompatActivity {
      */
     public native String pngLibVersion();
     public native Bitmap loadPng(FileInputStream stream);
+    public native Bitmap loadJpeg(FileInputStream stream);
 }

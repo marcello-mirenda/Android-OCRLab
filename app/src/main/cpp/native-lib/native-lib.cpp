@@ -2,11 +2,36 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "jpeglib.h"
 #include "png.h"
+
+struct my_error_mgr {
+    struct jpeg_error_mgr pub;
+    /* "public" fields */
+
+    jmp_buf setjmp_buffer;        /* for return to caller */
+};
+
+struct my_read_data {
+public:
+    my_read_data(std::vector<unsigned char> &data)
+            : _data(data) {
+        _pos = 0;
+    }
+
+    std::vector<unsigned char> &_data;
+    uint32_t _pos;
+};
+
+typedef struct my_error_mgr *my_error_ptr;
+
+METHODDEF(void) my_error_exit(j_common_ptr cinfo);
 
 jint availableData(JNIEnv *env, jobject inputStream);
 
 jint loadData(JNIEnv *env, jobject inputStream, jint count, std::vector<unsigned char> &buffer);
+
+int read(void *cookie, char *buf, int nbytes);
 
 void readDataFromInputStream(
         png_structp png_ptr,
@@ -21,11 +46,62 @@ jobject ParseRGB(
         const png_infop &info_ptr,
         bool alphaChannel);
 
+jobject JpegParseRGB(
+        JNIEnv *env,
+        jpeg_decompress_struct &cinfo);
+
 jint GetColor(JNIEnv *env, const png_byte red, const png_byte green,
               const png_byte blue);
 
 jint GetColor(JNIEnv *env, const png_byte alpha, const png_byte red, const png_byte green,
               const png_byte blue);
+
+extern "C"
+jobject Java_com_reviso_marcello_1ocrlab_ocrlab_MainActivity_loadJpeg(
+        JNIEnv *env,
+        jobject /* this */,
+        jobject inputStream) {
+
+    jint count = availableData(env, inputStream);
+
+    std::vector<unsigned char> buffer = std::vector<unsigned char>((unsigned long) count);
+    loadData(env, inputStream, count, buffer);
+
+    struct jpeg_decompress_struct cinfo;
+    struct my_error_mgr jerr;
+    FILE *infile;                /* source file */
+
+    my_read_data rd(buffer);
+    if ((infile = fropen(&rd, read)) == NULL) {
+        return NULL;
+    }
+    cinfo.err = jpeg_std_error(&jerr.pub);
+    jerr.pub.error_exit = my_error_exit;
+    if (setjmp(jerr.setjmp_buffer)) {
+        jpeg_destroy_decompress(&cinfo);
+        // fclose(infile);
+        return NULL;
+    }
+    jpeg_create_decompress(&cinfo);
+    jpeg_stdio_src(&cinfo, infile);
+    (void) jpeg_read_header(&cinfo, TRUE);
+    cinfo.scale_num = 1;
+    cinfo.scale_denom = 8;
+    (void) jpeg_start_decompress(&cinfo);
+    jobject bitmap = NULL;
+    switch (cinfo.out_color_space) {
+        case JCS_RGB:
+            bitmap = JpegParseRGB(env, cinfo);
+            break;
+        default:
+            bitmap = NULL;
+            break;
+    }
+    (void) jpeg_finish_decompress(&cinfo);
+    jpeg_destroy_decompress(&cinfo);
+    // fclose(infile);
+    return bitmap;
+}
 
 extern "C"
 jstring
@@ -200,6 +276,45 @@ jobject ParseRGB(
     return bitmap;
 }
 
+jobject JpegParseRGB(JNIEnv *env, jpeg_decompress_struct &cinfo) {
+
+    std::vector<int> colors = std::vector<int>(cinfo.output_width * cinfo.output_height);
+    JDIMENSION row_stride = cinfo.output_width * cinfo.output_components;
+    JSAMPARRAY rowData = (*cinfo.mem->alloc_sarray)((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride,
+                                                    1);
+
+    int cols = cinfo.output_width;
+    int colorIndex = 0;
+    while (cinfo.output_scanline < cinfo.output_height) {
+
+        (void) jpeg_read_scanlines(&cinfo, rowData, 1);
+        int byteIndex = 0;
+        for (int col = 0; col < cols; ++col) {
+            colors[colorIndex++] = 0xFF000000 | (rowData[0][byteIndex] << 16) |
+                                   (rowData[0][byteIndex + 1] << 8) |
+                                   rowData[0][byteIndex + 2];
+            byteIndex += 3;
+        }
+    }
+
+    // static Bitmap createBitmap(int[] colors, int width, int height, Bitmap.Config config)
+
+    jclass bitMapConfigClass = env->FindClass("android/graphics/Bitmap$Config");
+    jfieldID argbField = env->GetStaticFieldID(bitMapConfigClass, "ARGB_8888",
+                                               "Landroid/graphics/Bitmap$Config;");
+    jobject ARGB = env->GetStaticObjectField(bitMapConfigClass, argbField);
+    jclass bitMapClass = env->FindClass("android/graphics/Bitmap");
+    jmethodID createBitmapMethod = env->GetStaticMethodID(bitMapClass, "createBitmap",
+                                                          "([IIILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;");
+    jintArray colorsArray = env->NewIntArray((jsize) colors.size());
+    env->SetIntArrayRegion(colorsArray, 0, (jsize) colors.size(), colors.data());
+    jobject bitmap = env->CallStaticObjectMethod(bitMapClass, createBitmapMethod, colorsArray,
+                                                 (jint) cinfo.output_width,
+                                                 (jint) cinfo.output_height, ARGB);
+
+    return bitmap;
+}
+
 jint GetColor(JNIEnv *env, const png_byte alpha, const png_byte red, const png_byte green,
               const png_byte blue) {
     // static int argb(int alpha, int red, int green, int blue)
@@ -222,4 +337,27 @@ jint GetColor(JNIEnv *env, const png_byte red, const png_byte green,
     jmethodID argbMethod = env->GetStaticMethodID(colorClass, "rgb", "(III)I");
     return env->CallStaticIntMethod(colorClass, argbMethod, (jint) red, (jint) green,
                                     (jint) blue);
+}
+
+METHODDEF(void)
+my_error_exit(j_common_ptr cinfo) {
+    /* cinfo->err really points to a my_error_mgr struct, so coerce pointer */
+    my_error_ptr myerr = (my_error_ptr) cinfo->err;
+
+    /* Always display the message. */
+    /* We could postpone this until after returning, if we chose. */
+    (*cinfo->err->output_message)(cinfo);
+
+    /* Return control to the setjmp point */
+    longjmp(myerr->setjmp_buffer, 1);
+}
+
+int read(void *cookie, char *buf, int nbytes) {
+    my_read_data *prd = (my_read_data *) cookie;
+
+    int i;
+    for (i = 0; i < nbytes && prd->_pos < prd->_data.size(); ++i) {
+        buf[i] = prd->_data[prd->_pos++];
+    }
+    return i;
 }

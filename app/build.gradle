@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'MarcelloAndroidKeyStore'
+            keyPassword 'pel!k@ns1956'
+            storeFile file('/home/marcello/Android/keystores/marcello-android.jks')
+            storePassword 'pel!k@ns1956'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion '24.0.1'
     defaultConfig {
@@ -20,6 +28,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     externalNativeBuild {
