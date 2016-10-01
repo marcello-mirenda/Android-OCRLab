@@ -204,7 +204,11 @@ add_library( # Sets the name of the library.
              # Provides a relative path to your source file(s).
              # Associated headers in the same location as their source
              # file are automatically included.
-             src/main/cpp/native-lib/native-lib.cpp )
+             src/main/cpp/native-lib/native-lib.cpp
+             src/main/cpp/native-lib/native-lib-common.cpp
+             src/main/cpp/native-lib/native-lib-tiff.cpp
+             src/main/cpp/native-lib/native-lib-png.cpp
+             src/main/cpp/native-lib/native-lib-jpeg.cpp)
 
 # Specifies a path to native header files.
 include_directories(

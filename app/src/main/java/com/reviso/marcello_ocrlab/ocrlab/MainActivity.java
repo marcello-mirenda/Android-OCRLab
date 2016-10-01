@@ -1,6 +1,7 @@
 package com.reviso.marcello_ocrlab.ocrlab;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,12 +11,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,11 +37,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Example of a call to a native method
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        assert tv != null;
-        tv.setText(pngLibVersion());
     }
 
     @Override
@@ -71,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
         // To search for all documents available via installed storage providers, it would be
         // "*/*".
-        intent.setType("image/jpeg");
+        intent.setType("image/*");
 
         startActivityForResult(intent, READ_REQUEST_CODE);
         // END_INCLUDE (use_open_document_intent)
@@ -90,20 +86,48 @@ public class MainActivity extends AppCompatActivity {
             // provided to this method as a parameter.  Pull that uri using "resultData.getData()"
             if (resultData != null) {
                 Uri uri = resultData.getData();
+
+                ContentResolver cR = getContentResolver();
+
                 ParcelFileDescriptor parcelFileDescriptor = null;
                 try {
-                    parcelFileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
+                    parcelFileDescriptor = cR.openFileDescriptor(uri, "r");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
                 assert parcelFileDescriptor != null;
                 FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+
                 FileInputStream stream = new FileInputStream(fileDescriptor);
-                Bitmap image = loadJpeg(stream);
-                ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                assert imageView != null;
-                imageView.setImageBitmap(image);
-                //imageView.setImageBitmap(scaleDown(image, 1080, false));
+
+                MimeTypeMap mime = MimeTypeMap.getSingleton();
+                String type = mime.getExtensionFromMimeType(cR.getType(uri));
+                Bitmap image;
+                switch (type)
+                {
+                    case "jpg":
+                        image = loadJpeg(stream);
+                        break;
+                    case "png":
+                        image = loadPng(stream);
+                        break;
+                    default:
+                        image = null;
+                        break;
+                }
+
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (image != null) {
+                    ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                    assert imageView != null;
+                    imageView.setImageBitmap(image);
+                    //imageView.setImageBitmap(scaleDown(image, 1080, false));
+                }
             }
             // END_INCLUDE (parse_open_document_response)
         }
