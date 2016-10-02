@@ -116,19 +116,5 @@ jobject native_lib_png_ParseRGB(JNIEnv *env, const png_uint_32 width, const png_
         }
     }
 
-    // static Bitmap createBitmap(int[] colors, int width, int height, Bitmap.Config config)
-
-    jclass bitMapConfigClass = env->FindClass("android/graphics/Bitmap$Config");
-    jfieldID argbField = env->GetStaticFieldID(bitMapConfigClass, "ARGB_8888",
-                                               "Landroid/graphics/Bitmap$Config;");
-    jobject ARGB = env->GetStaticObjectField(bitMapConfigClass, argbField);
-    jclass bitMapClass = env->FindClass("android/graphics/Bitmap");
-    jmethodID createBitmapMethod = env->GetStaticMethodID(bitMapClass, "createBitmap",
-                                                          "([IIILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;");
-    jintArray colorsArray = env->NewIntArray((jsize) colors.size());
-    env->SetIntArrayRegion(colorsArray, 0, (jsize) colors.size(), colors.data());
-    jobject bitmap = env->CallStaticObjectMethod(bitMapClass, createBitmapMethod, colorsArray,
-                                                 (jint) width, (jint) height, ARGB);
-
-    return bitmap;
+    return native_lib_CreateBitmap(env, (jint) width, (jint) height, colors);
 }

@@ -30,6 +30,19 @@ int native_lib_read_fn(void *cookie, char *buf, int nbytes) {
     return i;
 }
 
+jobject native_lib_CreateBitmap(JNIEnv *env, jint width, jint height, std::vector<jint>& colors) {
 
+    // static Bitmap createBitmap(int[] colors, int width, int height, Bitmap.Config config)
 
-
+    jclass bitMapConfigClass = env->FindClass("android/graphics/Bitmap$Config");
+    jfieldID argbField = env->GetStaticFieldID(bitMapConfigClass, "ARGB_8888",
+                                               "Landroid/graphics/Bitmap$Config;");
+    jobject ARGB = env->GetStaticObjectField(bitMapConfigClass, argbField);
+    jclass bitMapClass = env->FindClass("android/graphics/Bitmap");
+    jmethodID createBitmapMethod = env->GetStaticMethodID(bitMapClass, "createBitmap",
+                                                          "([IIILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;");
+    jintArray colorsArray = env->NewIntArray((jsize) colors.size());
+    env->SetIntArrayRegion(colorsArray, 0, (jsize) colors.size(), colors.data());
+    return env->CallStaticObjectMethod(bitMapClass, createBitmapMethod, colorsArray,
+                                                 width, height, ARGB);
+}

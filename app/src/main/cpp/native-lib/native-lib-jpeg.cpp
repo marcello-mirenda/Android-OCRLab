@@ -71,22 +71,8 @@ jobject native_lib_jpeg_ParseRGB(JNIEnv *env, jpeg_decompress_struct &cinfo) {
         }
     }
 
-    // static Bitmap createBitmap(int[] colors, int width, int height, Bitmap.Config config)
-
-    jclass bitMapConfigClass = env->FindClass("android/graphics/Bitmap$Config");
-    jfieldID argbField = env->GetStaticFieldID(bitMapConfigClass, "ARGB_8888",
-                                               "Landroid/graphics/Bitmap$Config;");
-    jobject ARGB = env->GetStaticObjectField(bitMapConfigClass, argbField);
-    jclass bitMapClass = env->FindClass("android/graphics/Bitmap");
-    jmethodID createBitmapMethod = env->GetStaticMethodID(bitMapClass, "createBitmap",
-                                                          "([IIILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;");
-    jintArray colorsArray = env->NewIntArray((jsize) colors.size());
-    env->SetIntArrayRegion(colorsArray, 0, (jsize) colors.size(), colors.data());
-    jobject bitmap = env->CallStaticObjectMethod(bitMapClass, createBitmapMethod, colorsArray,
-                                                 (jint) cinfo.output_width,
-                                                 (jint) cinfo.output_height, ARGB);
-
-    return bitmap;
+    return native_lib_CreateBitmap(env, (jint) cinfo.output_width, (jint) cinfo.output_height,
+                                   colors);
 }
 
 METHODDEF(void) native_lib_jpeg_error_exit(j_common_ptr cinfo) {

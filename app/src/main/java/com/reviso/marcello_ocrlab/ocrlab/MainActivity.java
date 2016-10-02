@@ -3,6 +3,7 @@ package com.reviso.marcello_ocrlab.ocrlab;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
@@ -37,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        imageView.setImageResource(R.mipmap.ic_launcher);
     }
 
     @Override
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
         // To search for all documents available via installed storage providers, it would be
         // "*/*".
-        intent.setType("*/*");
+        intent.setType("image/*");
 
         startActivityForResult(intent, READ_REQUEST_CODE);
         // END_INCLUDE (use_open_document_intent)
@@ -125,11 +129,13 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                ImageView imageView = (ImageView) findViewById(R.id.imageView);
                 if (image != null) {
-                    ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     assert imageView != null;
                     imageView.setImageBitmap(image);
                     //imageView.setImageBitmap(scaleDown(image, 1080, false));
+                } else {
+                    imageView.setImageResource(R.mipmap.ic_launcher);
                 }
             }
             // END_INCLUDE (parse_open_document_response)

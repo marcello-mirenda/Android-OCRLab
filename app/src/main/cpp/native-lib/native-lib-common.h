@@ -26,4 +26,6 @@ jint native_lib_AvailableData(JNIEnv *env, jobject inputStream);
 jint native_lib_LoadData(JNIEnv *env, jobject inputStream, jint count,
                          std::vector<unsigned char> &buffer);
 
+jobject native_lib_CreateBitmap(JNIEnv *env, jint width, jint height, std::vector<jint>& colors);
+
 #endif //OCRLAB_NATIVE_LIB_COMMON_H

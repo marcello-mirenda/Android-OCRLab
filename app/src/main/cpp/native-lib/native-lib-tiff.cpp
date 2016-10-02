@@ -18,13 +18,35 @@ jobject native_lib_tiff_Load(JNIEnv *env, jobject inputStream) {
     std::stringstream input_TIFF_stream;
     std::copy(buffer.begin(), buffer.end(), std::ostreambuf_iterator<char>(input_TIFF_stream));
 
-    TIFF* mem_TIFF = TIFFStreamOpen("MemTIFF", (std::istream *)&input_TIFF_stream);
+    TIFF *mem_TIFF = TIFFStreamOpen("MemTIFF", (std::istream *) &input_TIFF_stream);
 
-    unsigned long width, height;
-    int status = TIFFGetField(mem_TIFF, TIFFTAG_IMAGEWIDTH, &width);
-    status = TIFFGetField(mem_TIFF, TIFFTAG_IMAGELENGTH, &height);
+    uint32 w, h;
+    size_t npixels;
+    uint32 *raster;
 
+    TIFFGetField(mem_TIFF, TIFFTAG_IMAGEWIDTH, &w);
+    TIFFGetField(mem_TIFF, TIFFTAG_IMAGELENGTH, &h);
+    npixels = w * h;
+    std::vector<jint> colors = std::vector<jint>(npixels);
+    raster = (uint32 *) _TIFFmalloc(npixels * sizeof(uint32));
+    if (raster != NULL) {
+        if (TIFFReadRGBAImage(mem_TIFF, w, h, raster, 0)) {
+
+            uint32 colorIndex = 0;
+            for (int r = (h - 1); r >= 0; --r) {
+                for (int c = 0; c < w; ++c) {
+                    uint8 *components = (uint8 *) (raster + (r * w) + c);
+                    colors[colorIndex++] = (components[3] << 24) |
+                                           (components[0] << 16) |
+                                           (components[1] << 8) |
+                                           components[2];
+
+                }
+            }
+        }
+        _TIFFfree(raster);
+    }
     TIFFClose(mem_TIFF);
 
-    return NULL;
+    return native_lib_CreateBitmap(env, w, h, colors);
 }
