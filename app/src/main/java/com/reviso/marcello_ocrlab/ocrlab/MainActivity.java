@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         // If one wanted to search for ogg vorbis files, the type would be "audio/ogg".
         // To search for all documents available via installed storage providers, it would be
         // "*/*".
-        intent.setType("image/*");
+        intent.setType("*/*");
 
         startActivityForResult(intent, READ_REQUEST_CODE);
         // END_INCLUDE (use_open_document_intent)
@@ -111,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                     case "png":
                         image = loadPng(stream);
                         break;
+                    case "tiff":
+                        image = loadTiff(stream);
+                        break;
                     default:
                         image = null;
                         break;
@@ -151,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
      * which is packaged with this application.
      */
     public native String pngLibVersion();
+    public native Bitmap loadTiff(FileInputStream stream);
     public native Bitmap loadPng(FileInputStream stream);
     public native Bitmap loadJpeg(FileInputStream stream);
 }

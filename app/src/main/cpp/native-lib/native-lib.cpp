@@ -1,5 +1,6 @@
 #include <jni.h>
 #include <string>
+#include "native-lib-tiff.h"
 #include "native-lib-png.h"
 #include "native-lib-jpeg.h"
 
@@ -25,4 +26,11 @@ jobject
 Java_com_reviso_marcello_1ocrlab_ocrlab_MainActivity_loadPng(JNIEnv *env, jobject /* this */,
                                                              jobject inputStream) {
     return native_lib_png_Load(env, inputStream);
+}
+
+extern "C"
+jobject
+Java_com_reviso_marcello_1ocrlab_ocrlab_MainActivity_loadTiff(JNIEnv *env, jobject /* this */,
+                                                             jobject inputStream) {
+    return native_lib_tiff_Load(env, inputStream);
 }

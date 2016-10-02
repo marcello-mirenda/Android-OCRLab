@@ -346,7 +346,7 @@
 #define TIFF_UINT64_FORMAT "%lu"
 
 /* Unsigned 64-bit type */
-#define TIFF_UINT64_T unsigned long
+#define TIFF_UINT64_T unsigned long long
 
 /* Unsigned 8-bit type */
 #define TIFF_UINT8_T unsigned char

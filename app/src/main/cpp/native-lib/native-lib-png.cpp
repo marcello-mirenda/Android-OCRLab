@@ -2,7 +2,6 @@
 // Created by marcello on 01/10/16.
 //
 
-#include <vector>
 #include "native-lib-common.h"
 #include "native-lib-png.h"
 
@@ -133,28 +132,3 @@ jobject native_lib_png_ParseRGB(JNIEnv *env, const png_uint_32 width, const png_
 
     return bitmap;
 }
-
-jint native_lib_png_GetColor(JNIEnv *env, const png_byte alpha, const png_byte red,
-                             const png_byte green, const png_byte blue) {
-    // static int argb(int alpha, int red, int green, int blue)
-    static jclass colorClass = NULL;
-    if (colorClass == NULL) {
-        colorClass = env->FindClass("android/graphics/Color");
-    }
-    jmethodID argbMethod = env->GetStaticMethodID(colorClass, "argb", "(IIII)I");
-    return env->CallStaticIntMethod(colorClass, argbMethod, (jint) alpha, (jint) red, (jint) green,
-                                    (jint) blue);
-}
-
-jint native_lib_png_GetColor(JNIEnv *env, const png_byte red, const png_byte green,
-                             const png_byte blue) {
-    // static int argb(int alpha, int red, int green, int blue)
-    static jclass colorClass = NULL;
-    if (colorClass == NULL) {
-        colorClass = env->FindClass("android/graphics/Color");
-    }
-    jmethodID argbMethod = env->GetStaticMethodID(colorClass, "rgb", "(III)I");
-    return env->CallStaticIntMethod(colorClass, argbMethod, (jint) red, (jint) green,
-                                    (jint) blue);
-}
-

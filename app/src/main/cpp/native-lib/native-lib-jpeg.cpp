@@ -14,10 +14,9 @@ jobject native_lib_jpeg_Load(JNIEnv *env, jobject inputStream) {
     std::vector<unsigned char> buffer = std::vector<unsigned char>((unsigned long) count);
     native_lib_LoadData(env, inputStream, count, buffer);
 
-    FILE *infile;                /* source file */
-
-    native_lib_jpeg_read_data rd(buffer);
-    if ((infile = fropen(&rd, native_lib_jpeg_Read)) == NULL) {
+    native_lib_read_data rd(buffer);
+    FILE *infile;
+    if ((infile = fropen(&rd, native_lib_read_fn)) == NULL) {
         return NULL;
     }
 
@@ -88,16 +87,6 @@ jobject native_lib_jpeg_ParseRGB(JNIEnv *env, jpeg_decompress_struct &cinfo) {
                                                  (jint) cinfo.output_height, ARGB);
 
     return bitmap;
-}
-
-int native_lib_jpeg_Read(void *cookie, char *buf, int nbytes) {
-    native_lib_jpeg_read_data *prd = (native_lib_jpeg_read_data *) cookie;
-
-    int i;
-    for (i = 0; i < nbytes && prd->_pos < prd->_data.size(); ++i) {
-        buf[i] = prd->_data[prd->_pos++];
-    }
-    return i;
 }
 
 METHODDEF(void) native_lib_jpeg_error_exit(j_common_ptr cinfo) {

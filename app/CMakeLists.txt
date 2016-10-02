@@ -193,6 +193,7 @@ add_library( # Sets the name of the library.
             src/main/cpp/tiff/tif_warning.c
             src/main/cpp/tiff/tif_write.c
             src/main/cpp/tiff/tif_zip.c
+            src/main/cpp/tiff/tif_stream.cxx
  )
 
 add_library( # Sets the name of the library.
