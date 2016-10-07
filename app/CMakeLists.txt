@@ -197,6 +197,189 @@ add_library( # Sets the name of the library.
  )
 
 add_library( # Sets the name of the library.
+             com-reviso-marcello-ocrlab-lept
+
+             # Sets the library as a shared library.
+             SHARED
+
+             # Provides a relative path to your source file(s).
+             # Associated headers in the same location as their source
+             # file are automatically included.
+
+            src/main/cpp/lept/pixconv.c
+            src/main/cpp/lept/ptafunc1.c
+            src/main/cpp/lept/tiffiostub.c
+            src/main/cpp/lept/quadtree.c
+            src/main/cpp/lept/jbclass.c
+            src/main/cpp/lept/adaptmap.c
+            src/main/cpp/lept/pixtiling.c
+            src/main/cpp/lept/convolve.c
+            src/main/cpp/lept/sel1.c
+            src/main/cpp/lept/arrayaccess.c
+            src/main/cpp/lept/boxfunc2.c
+            src/main/cpp/lept/bmpio.c
+            src/main/cpp/lept/writefile.c
+            src/main/cpp/lept/fhmtgen.1.c
+            src/main/cpp/lept/numabasic.c
+            src/main/cpp/lept/fmorphgenlow.1.c
+            src/main/cpp/lept/bardecode.c
+            src/main/cpp/lept/webpiostub.c
+            src/main/cpp/lept/graphics.c
+            src/main/cpp/lept/recogtrain.c
+            src/main/cpp/lept/bmpiostub.c
+            src/main/cpp/lept/kernel.c
+            src/main/cpp/lept/dewarp4.c
+            src/main/cpp/lept/xtractprotos.c
+            src/main/cpp/lept/jpegio.c
+            src/main/cpp/lept/pnmiostub.c
+            src/main/cpp/lept/fhmtgenlow.1.c
+            src/main/cpp/lept/dewarp3.c
+            src/main/cpp/lept/psio2stub.c
+            src/main/cpp/lept/finditalic.c
+            src/main/cpp/lept/scale.c
+            src/main/cpp/lept/grayquant.c
+            src/main/cpp/lept/morphapp.c
+            src/main/cpp/lept/encoding.c
+            src/main/cpp/lept/libversions.c
+            src/main/cpp/lept/bbuffer.c
+            src/main/cpp/lept/bootnumgen2.c
+            src/main/cpp/lept/pixabasic.c
+            src/main/cpp/lept/viewfiles.c
+            src/main/cpp/lept/ccbord.c
+            src/main/cpp/lept/pageseg.c
+            src/main/cpp/lept/projective.c
+            src/main/cpp/lept/zlibmemstub.c
+            src/main/cpp/lept/watershed.c
+            src/main/cpp/lept/rotate.c
+            src/main/cpp/lept/dwacomblow.2.c
+            src/main/cpp/lept/morph.c
+            src/main/cpp/lept/selgen.c
+            src/main/cpp/lept/dnabasic.c
+            src/main/cpp/lept/pixarith.c
+            src/main/cpp/lept/readbarcode.c
+            src/main/cpp/lept/pdfio2.c
+            src/main/cpp/lept/recogbasic.c
+            src/main/cpp/lept/numafunc1.c
+            src/main/cpp/lept/pix3.c
+            src/main/cpp/lept/rotateamlow.c
+            src/main/cpp/lept/bilinear.c
+            src/main/cpp/lept/bmf.c
+            src/main/cpp/lept/seedfilllow.c
+            src/main/cpp/lept/pdfio1stub.c
+            src/main/cpp/lept/ptra.c
+            src/main/cpp/lept/enhance.c
+            src/main/cpp/lept/bytearray.c
+            src/main/cpp/lept/maze.c
+            src/main/cpp/lept/boxfunc4.c
+            src/main/cpp/lept/morphseq.c
+            src/main/cpp/lept/boxfunc1.c
+            src/main/cpp/lept/jpegiostub.c
+            src/main/cpp/lept/stringcode.c
+            src/main/cpp/lept/affinecompose.c
+            src/main/cpp/lept/baseline.c
+            src/main/cpp/lept/stack.c
+            src/main/cpp/lept/rbtree.c
+            src/main/cpp/lept/morphdwa.c
+            src/main/cpp/lept/fliphmtgen.c
+            src/main/cpp/lept/pixalloc.c
+            src/main/cpp/lept/regutils.c
+            src/main/cpp/lept/colorquant2.c
+            src/main/cpp/lept/coloring.c
+            src/main/cpp/lept/pix4.c
+            src/main/cpp/lept/colorcontent.c
+            src/main/cpp/lept/jp2kheader.c
+            src/main/cpp/lept/recogdid.c
+            src/main/cpp/lept/rotateam.c
+            src/main/cpp/lept/fpix1.c
+            src/main/cpp/lept/rank.c
+            src/main/cpp/lept/gplot.c
+            src/main/cpp/lept/shear.c
+            src/main/cpp/lept/gifio.c
+            src/main/cpp/lept/binexpand.c
+            src/main/cpp/lept/blend.c
+            src/main/cpp/lept/dewarp1.c
+            src/main/cpp/lept/readfile.c
+            src/main/cpp/lept/pdfio1.c
+            src/main/cpp/lept/convertfiles.c
+            src/main/cpp/lept/jp2kiostub.c
+            src/main/cpp/lept/binreduce.c
+            src/main/cpp/lept/ptabasic.c
+            src/main/cpp/lept/seedfill.c
+            src/main/cpp/lept/pixlabel.c
+            src/main/cpp/lept/ropiplow.c
+            src/main/cpp/lept/jp2kheaderstub.c
+            src/main/cpp/lept/fmorphauto.c
+            src/main/cpp/lept/edge.c
+            src/main/cpp/lept/graymorph.c
+            src/main/cpp/lept/rotateorth.c
+            src/main/cpp/lept/fhmtauto.c
+            src/main/cpp/lept/pix5.c
+            src/main/cpp/lept/psio1.c
+            src/main/cpp/lept/map.c
+            src/main/cpp/lept/pixacc.c
+            src/main/cpp/lept/dwacomb.2.c
+            src/main/cpp/lept/scalelow.c
+            src/main/cpp/lept/pixcomp.c
+            src/main/cpp/lept/textops.c
+            src/main/cpp/lept/skew.c
+            src/main/cpp/lept/pixafunc1.c
+            src/main/cpp/lept/colorspace.c
+            src/main/cpp/lept/flipdetect.c
+            src/main/cpp/lept/pngiostub.c
+            src/main/cpp/lept/runlength.c
+            src/main/cpp/lept/dewarp2.c
+            src/main/cpp/lept/boxfunc3.c
+            src/main/cpp/lept/binarize.c
+            src/main/cpp/lept/leptwin.c
+            src/main/cpp/lept/recogident.c
+            src/main/cpp/lept/rotateshear.c
+            src/main/cpp/lept/compare.c
+            src/main/cpp/lept/colormorph.c
+            src/main/cpp/lept/pix2.c
+            src/main/cpp/lept/pix1.c
+            src/main/cpp/lept/colorquant1.c
+            src/main/cpp/lept/psio2.c
+            src/main/cpp/lept/pdfio2stub.c
+            src/main/cpp/lept/partition.c
+            src/main/cpp/lept/pngio.c
+            src/main/cpp/lept/jp2kio.c
+            src/main/cpp/lept/fpix2.c
+            src/main/cpp/lept/fmorphgen.1.c
+            src/main/cpp/lept/warper.c
+            src/main/cpp/lept/correlscore.c
+            src/main/cpp/lept/heap.c
+            src/main/cpp/lept/ccthin.c
+            src/main/cpp/lept/queue.c
+            src/main/cpp/lept/colormap.c
+            src/main/cpp/lept/paintcmap.c
+            src/main/cpp/lept/roplow.c
+            src/main/cpp/lept/list.c
+            src/main/cpp/lept/sarray.c
+            src/main/cpp/lept/classapp.c
+            src/main/cpp/lept/utils.c
+            src/main/cpp/lept/webpio.c
+            src/main/cpp/lept/spixio.c
+            src/main/cpp/lept/parseprotos.c
+            src/main/cpp/lept/psio1stub.c
+            src/main/cpp/lept/sel2.c
+            src/main/cpp/lept/affine.c
+            src/main/cpp/lept/sudoku.c
+            src/main/cpp/lept/rop.c
+            src/main/cpp/lept/gifiostub.c
+            src/main/cpp/lept/tiffio.c
+            src/main/cpp/lept/conncomp.c
+            src/main/cpp/lept/pnmio.c
+            src/main/cpp/lept/numafunc2.c
+            src/main/cpp/lept/bilateral.c
+            src/main/cpp/lept/grayquantlow.c
+            src/main/cpp/lept/boxbasic.c
+            src/main/cpp/lept/pixafunc2.c
+            src/main/cpp/lept/bootnumgen1.c
+            src/main/cpp/lept/colorseg.c
+            src/main/cpp/lept/zlibmem.c
+)
+
+add_library( # Sets the name of the library.
              com-reviso-marcello-ocrlab-native-lib
 
              # Sets the library as a shared library.
@@ -217,6 +400,7 @@ include_directories(
     src/main/cpp/png
     src/main/cpp/jpeg
     src/main/cpp/tiff
+    src/main/cpp/lept
     src/main/cpp/native-lib
     )
 
@@ -254,10 +438,19 @@ target_link_libraries( # Specifies the target library.
                        ${log-lib} )
 
 target_link_libraries( # Specifies the target library.
-                       com-reviso-marcello-ocrlab-native-lib
+                       com-reviso-marcello-ocrlab-lept
                        com-reviso-marcello-ocrlab-tiff
                        com-reviso-marcello-ocrlab-png
                        com-reviso-marcello-ocrlab-jpeg
+                       com-reviso-marcello-ocrlab-z
+
+                       # Links the target library to the log library
+                       # included in the NDK.
+                       ${log-lib} )
+
+target_link_libraries( # Specifies the target library.
+                       com-reviso-marcello-ocrlab-native-lib
+                       com-reviso-marcello-ocrlab-lept
 
                        # Links the target library to the log library
                        # included in the NDK.
