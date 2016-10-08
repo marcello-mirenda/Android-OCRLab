@@ -2,11 +2,14 @@ package com.reviso.marcello_ocrlab.ocrlab;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,6 +27,7 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 1337;
+    private static final int ROTATE_REQUEST_CODE = 1338;
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -52,12 +58,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_open_file) {
-            performFileSearch();
+            performFileSearch(READ_REQUEST_CODE);
+        }
+        else if (item.getItemId() == R.id.menu_item_rotate_file) {
+            performFileSearch(ROTATE_REQUEST_CODE);
         }
         return true;
     }
 
-    public void performFileSearch() {
+    public void performFileSearch(int requestCode) {
 
         // BEGIN_INCLUDE (use_open_document_intent)
         // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file browser.
@@ -73,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         // "*/*".
         intent.setType("image/*");
 
-        startActivityForResult(intent, READ_REQUEST_CODE);
+        startActivityForResult(intent, requestCode);
         // END_INCLUDE (use_open_document_intent)
     }
 
@@ -84,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         // If the request code seen here doesn't match, it's the response to some other intent,
         // and the below code shouldn't run at all.
 
-        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if ((requestCode == READ_REQUEST_CODE || requestCode == ROTATE_REQUEST_CODE) && resultCode == Activity.RESULT_OK) {
             // The document selected by the user won't be returned in the intent.
             // Instead, a URI to that document will be contained in the return intent
             // provided to this method as a parameter.  Pull that uri using "resultData.getData()"
@@ -104,25 +113,28 @@ public class MainActivity extends AppCompatActivity {
 
                 FileInputStream stream = new FileInputStream(fileDescriptor);
 
-                MimeTypeMap mime = MimeTypeMap.getSingleton();
-                String type = mime.getExtensionFromMimeType(cR.getType(uri));
                 Bitmap image;
-                switch (type)
-                {
-                    case "jpg":
-                        image = loadJpeg(stream);
-                        break;
-                    case "png":
-                        image = loadPng(stream);
-                        break;
-                    case "tiff":
-                        image = loadTiff(stream);
-                        break;
-                    default:
-                        image = null;
-                        break;
+                if (requestCode == ROTATE_REQUEST_CODE) {
+                    image = Rotate(stream);
+                } else {
+                    MimeTypeMap mime = MimeTypeMap.getSingleton();
+                    String type = mime.getExtensionFromMimeType(cR.getType(uri));
+                    switch (type)
+                    {
+                        case "jpg":
+                            image = loadJpeg(stream);
+                            break;
+                        case "png":
+                            image = loadPng(stream);
+                            break;
+                        case "tiff":
+                            image = loadTiff(stream);
+                            break;
+                        default:
+                            image = null;
+                            break;
+                    }
                 }
-
                 try {
                     stream.close();
                 } catch (IOException e) {
@@ -163,4 +175,5 @@ public class MainActivity extends AppCompatActivity {
     public native Bitmap loadTiff(FileInputStream stream);
     public native Bitmap loadPng(FileInputStream stream);
     public native Bitmap loadJpeg(FileInputStream stream);
+    public native Bitmap Rotate(FileInputStream stream);
 }

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">OCR Lab</string>
     <string name="open_file">Apri file</string>
+    <string name="rotate_file">Ruota file</string>
 </resources>

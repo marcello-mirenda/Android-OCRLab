@@ -14,6 +14,11 @@ jobject native_lib_jpeg_Load(JNIEnv *env, jobject inputStream) {
     std::vector<unsigned char> buffer = std::vector<unsigned char>((unsigned long) count);
     native_lib_LoadData(env, inputStream, count, buffer);
 
+    return native_lib_jpeg_Load(env, buffer);
+}
+
+jobject native_lib_jpeg_Load(JNIEnv *env, std::vector<unsigned char> &buffer) {
+
     native_lib_read_data rd(buffer);
     FILE *infile;
     if ((infile = fropen(&rd, native_lib_read_fn)) == NULL) {

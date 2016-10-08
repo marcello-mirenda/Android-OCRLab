@@ -30,7 +30,34 @@ int native_lib_read_fn(void *cookie, char *buf, int nbytes) {
     return i;
 }
 
-jobject native_lib_CreateBitmap(JNIEnv *env, jint width, jint height, std::vector<jint>& colors) {
+int native_lib_write_fn(void *cookie, const char *buf, int nbytes) {
+    native_lib_read_data *prd = (native_lib_read_data *) cookie;
+
+    int i;
+    for (i = 0; i < nbytes && prd->_pos < prd->_data.size(); ++i) {
+        prd->_data[prd->_pos++] = buf[i];
+    }
+    return i;
+}
+
+fpos_t native_lib_lseek_fn(void *cookie, fpos_t offset, int whence) {
+    native_lib_read_data *prd = (native_lib_read_data *) cookie;
+    switch (whence) {
+        case SEEK_SET:
+            prd->_pos = offset;
+            break;
+        case SEEK_CUR:
+            prd->_pos += offset;
+            break;
+        case SEEK_END:
+            prd->_pos = prd->_data.size() + offset;
+            break;
+    }
+    return prd->_pos;
+}
+
+
+jobject native_lib_CreateBitmap(JNIEnv *env, jint width, jint height, std::vector<jint> &colors) {
 
     // static Bitmap createBitmap(int[] colors, int width, int height, Bitmap.Config config)
 
@@ -44,5 +71,5 @@ jobject native_lib_CreateBitmap(JNIEnv *env, jint width, jint height, std::vecto
     jintArray colorsArray = env->NewIntArray((jsize) colors.size());
     env->SetIntArrayRegion(colorsArray, 0, (jsize) colors.size(), colors.data());
     return env->CallStaticObjectMethod(bitMapClass, createBitmapMethod, colorsArray,
-                                                 width, height, ARGB);
+                                       width, height, ARGB);
 }

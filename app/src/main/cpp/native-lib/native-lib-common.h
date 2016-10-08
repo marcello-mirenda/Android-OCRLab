@@ -8,6 +8,7 @@
 #include <jni.h>
 #include <vector>
 #include <cstdint>
+#include <stdio.h>
 
 struct native_lib_read_data {
     native_lib_read_data(std::vector<unsigned char> &data)
@@ -20,6 +21,8 @@ struct native_lib_read_data {
 };
 
 int native_lib_read_fn(void *cookie, char *buf, int nbytes);
+int native_lib_write_fn(void *cookie, const char *buf, int nbytes);
+fpos_t native_lib_lseek_fn(void *cookie, fpos_t offset, int whence);
 
 jint native_lib_AvailableData(JNIEnv *env, jobject inputStream);
 

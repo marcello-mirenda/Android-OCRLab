@@ -392,7 +392,8 @@ add_library( # Sets the name of the library.
              src/main/cpp/native-lib/native-lib-common.cpp
              src/main/cpp/native-lib/native-lib-tiff.cpp
              src/main/cpp/native-lib/native-lib-png.cpp
-             src/main/cpp/native-lib/native-lib-jpeg.cpp)
+             src/main/cpp/native-lib/native-lib-jpeg.cpp
+             src/main/cpp/native-lib/native-lib-lept.cpp)
 
 # Specifies a path to native header files.
 include_directories(

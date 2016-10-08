@@ -22,5 +22,6 @@ typedef struct native_lib_jpeg_error_mgr *native_lib_jpeg_error_mgr_ptr;
 jobject native_lib_jpeg_ParseRGB(JNIEnv *env, jpeg_decompress_struct &cinfo);
 
 jobject native_lib_jpeg_Load(JNIEnv *env, jobject inputStream);
+jobject native_lib_jpeg_Load(JNIEnv *env, std::vector<unsigned char> &buffer);
 
 #endif //OCRLAB_NATIVE_LIB_JPEG_H
