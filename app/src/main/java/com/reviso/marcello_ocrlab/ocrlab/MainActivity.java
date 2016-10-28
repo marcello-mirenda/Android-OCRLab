@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,12 +25,16 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 1337;
     private static final int ROTATE_REQUEST_CODE = 1338;
+    private static final int RECOGNIZE_REQUEST_CODE = 1339;
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -63,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         else if (item.getItemId() == R.id.menu_item_rotate_file) {
             performFileSearch(ROTATE_REQUEST_CODE);
         }
+        else if (item.getItemId() == R.id.menu_item_recognize_file) {
+            performFileSearch(RECOGNIZE_REQUEST_CODE);
+        }
         return true;
     }
 
@@ -93,7 +103,9 @@ public class MainActivity extends AppCompatActivity {
         // If the request code seen here doesn't match, it's the response to some other intent,
         // and the below code shouldn't run at all.
 
-        if ((requestCode == READ_REQUEST_CODE || requestCode == ROTATE_REQUEST_CODE) && resultCode == Activity.RESULT_OK) {
+        if ((requestCode == READ_REQUEST_CODE ||
+                requestCode == ROTATE_REQUEST_CODE ||
+                requestCode == RECOGNIZE_REQUEST_CODE) && resultCode == Activity.RESULT_OK) {
             // The document selected by the user won't be returned in the intent.
             // Instead, a URI to that document will be contained in the return intent
             // provided to this method as a parameter.  Pull that uri using "resultData.getData()"
@@ -114,7 +126,29 @@ public class MainActivity extends AppCompatActivity {
                 FileInputStream stream = new FileInputStream(fileDescriptor);
 
                 Bitmap image;
-                if (requestCode == ROTATE_REQUEST_CODE) {
+                if (requestCode == RECOGNIZE_REQUEST_CODE) {
+                    AssetManager am = getAssets();
+                    try {
+                        String[] tessdata = am.list("tessdata");
+                        File cacheDir = getCacheDir();
+                        File tessData = new File(cacheDir, "tessdata");
+                        if (!tessData.exists()){
+                            tessData.mkdir();
+                        }
+                        for (String item:tessdata) {
+                            InputStream istream = am.open(String.format("tessdata/%s", item));
+                            File ofile = new File(tessData, item);
+                            FileOutputStream ostream = new FileOutputStream(ofile);
+                            CopyStream(istream, ostream);
+                            Log.d("OCRLAB", "onActivityResult: copied " + ofile.getAbsolutePath());
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    recognize(getCacheDir().getAbsolutePath(), stream);
+                    return;
+                }
+                else if (requestCode == ROTATE_REQUEST_CODE) {
                     image = Rotate(stream);
                 } else {
                     MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -167,6 +201,24 @@ public class MainActivity extends AppCompatActivity {
         return newBitmap;
     }
 
+    public void CopyStream(InputStream is, OutputStream os) {
+        final int buffer_size = 4096;
+        try {
+            byte[] bytes = new byte[buffer_size];
+            for (int count=0;count!=-1;) {
+                count = is.read(bytes);
+                if(count != -1) {
+                    os.write(bytes, 0, count);
+                }
+            }
+            os.flush();
+            is.close();
+            os.close();
+        } catch (Exception ex) {
+            Log.e("OCRLAB",ex.getMessage());
+        }
+    }
+
     /**
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
@@ -176,4 +228,5 @@ public class MainActivity extends AppCompatActivity {
     public native Bitmap loadPng(FileInputStream stream);
     public native Bitmap loadJpeg(FileInputStream stream);
     public native Bitmap Rotate(FileInputStream stream);
+    public native Object recognize(String tessData, FileInputStream stream);
 }
