@@ -380,6 +380,273 @@ add_library( # Sets the name of the library.
 )
 
 add_library( # Sets the name of the library.
+             com-reviso-marcello-ocrlab-tesseract
+
+             # Sets the library as a shared library.
+             SHARED
+
+             # Provides a relative path to your source file(s).
+             # Associated headers in the same location as their source
+             # file are automatically included.
+            src/main/cpp/tesseract/ccmain/superscript.cpp
+            src/main/cpp/tesseract/ccmain/tesseractclass.cpp
+            src/main/cpp/tesseract/ccmain/cubeclassifier.cpp
+            src/main/cpp/tesseract/ccmain/pagewalk.cpp
+            src/main/cpp/tesseract/ccmain/docqual.cpp
+            src/main/cpp/tesseract/ccmain/tesseract_cube_combiner.cpp
+            src/main/cpp/tesseract/ccmain/tessedit.cpp
+            src/main/cpp/tesseract/ccmain/fixspace.cpp
+            src/main/cpp/tesseract/ccmain/resultiterator.cpp
+            src/main/cpp/tesseract/ccmain/thresholder.cpp
+            src/main/cpp/tesseract/ccmain/tessbox.cpp
+            src/main/cpp/tesseract/ccmain/cube_control.cpp
+            src/main/cpp/tesseract/ccmain/ltrresultiterator.cpp
+            src/main/cpp/tesseract/ccmain/osdetect.cpp
+            src/main/cpp/tesseract/ccmain/recogtraining.cpp
+            src/main/cpp/tesseract/ccmain/fixxht.cpp
+            src/main/cpp/tesseract/ccmain/cube_reco_context.cpp
+            src/main/cpp/tesseract/ccmain/reject.cpp
+            src/main/cpp/tesseract/ccmain/applybox.cpp
+            src/main/cpp/tesseract/ccmain/pagesegmain.cpp
+            src/main/cpp/tesseract/ccmain/pageiterator.cpp
+            src/main/cpp/tesseract/ccmain/adaptions.cpp
+            src/main/cpp/tesseract/ccmain/control.cpp
+            src/main/cpp/tesseract/ccmain/equationdetect.cpp
+            src/main/cpp/tesseract/ccmain/tessvars.cpp
+            src/main/cpp/tesseract/ccmain/pgedit.cpp
+            src/main/cpp/tesseract/ccmain/paramsd.cpp
+            src/main/cpp/tesseract/ccmain/werdit.cpp
+            src/main/cpp/tesseract/ccmain/tfacepp.cpp
+            src/main/cpp/tesseract/ccmain/output.cpp
+            src/main/cpp/tesseract/ccmain/par_control.cpp
+            src/main/cpp/tesseract/ccmain/paragraphs.cpp
+            src/main/cpp/tesseract/ccutil/errcode.cpp
+            src/main/cpp/tesseract/ccutil/unicharmap.cpp
+            src/main/cpp/tesseract/ccutil/unicharset.cpp
+            src/main/cpp/tesseract/ccutil/universalambigs.cpp
+            src/main/cpp/tesseract/ccutil/tessdatamanager.cpp
+            src/main/cpp/tesseract/ccutil/elst2.cpp
+            src/main/cpp/tesseract/ccutil/ambigs.cpp
+            src/main/cpp/tesseract/ccutil/tprintf.cpp
+            src/main/cpp/tesseract/ccutil/bitvector.cpp
+            src/main/cpp/tesseract/ccutil/clst.cpp
+            src/main/cpp/tesseract/ccutil/params.cpp
+            src/main/cpp/tesseract/ccutil/basedir.cpp
+            src/main/cpp/tesseract/ccutil/ccutil.cpp
+            src/main/cpp/tesseract/ccutil/unichar.cpp
+            src/main/cpp/tesseract/ccutil/globaloc.cpp
+            src/main/cpp/tesseract/ccutil/unicodes.cpp
+            src/main/cpp/tesseract/ccutil/scanutils.cpp
+            src/main/cpp/tesseract/ccutil/strngs.cpp
+            src/main/cpp/tesseract/ccutil/elst.cpp
+            src/main/cpp/tesseract/ccutil/indexmapbidi.cpp
+            src/main/cpp/tesseract/ccutil/bits16.cpp
+            src/main/cpp/tesseract/ccutil/mainblk.cpp
+            src/main/cpp/tesseract/ccutil/memry.cpp
+            src/main/cpp/tesseract/ccutil/serialis.cpp
+            src/main/cpp/tesseract/dict/dawg.cpp
+            src/main/cpp/tesseract/dict/hyphen.cpp
+            src/main/cpp/tesseract/dict/permdawg.cpp
+            src/main/cpp/tesseract/dict/stopper.cpp
+            src/main/cpp/tesseract/dict/context.cpp
+            src/main/cpp/tesseract/dict/dawg_cache.cpp
+            src/main/cpp/tesseract/dict/trie.cpp
+            src/main/cpp/tesseract/dict/dict.cpp
+            src/main/cpp/tesseract/textord/alignedblob.cpp
+            src/main/cpp/tesseract/textord/topitch.cpp
+            src/main/cpp/tesseract/textord/pitsync1.cpp
+            src/main/cpp/tesseract/textord/colfind.cpp
+            src/main/cpp/tesseract/textord/tordmain.cpp
+            src/main/cpp/tesseract/textord/strokewidth.cpp
+            src/main/cpp/tesseract/textord/devanagari_processing.cpp
+            src/main/cpp/tesseract/textord/textlineprojection.cpp
+            src/main/cpp/tesseract/textord/ccnontextdetect.cpp
+            src/main/cpp/tesseract/textord/colpartitionset.cpp
+            src/main/cpp/tesseract/textord/colpartitiongrid.cpp
+            src/main/cpp/tesseract/textord/makerow.cpp
+            src/main/cpp/tesseract/textord/tospace.cpp
+            src/main/cpp/tesseract/textord/drawedg.cpp
+            src/main/cpp/tesseract/textord/tovars.cpp
+            src/main/cpp/tesseract/textord/equationdetectbase.cpp
+            src/main/cpp/tesseract/textord/tabfind.cpp
+            src/main/cpp/tesseract/textord/tablefind.cpp
+            src/main/cpp/tesseract/textord/scanedg.cpp
+            src/main/cpp/tesseract/textord/textord.cpp
+            src/main/cpp/tesseract/textord/baselinedetect.cpp
+            src/main/cpp/tesseract/textord/workingpartset.cpp
+            src/main/cpp/tesseract/textord/blkocc.cpp
+            src/main/cpp/tesseract/textord/cjkpitch.cpp
+            src/main/cpp/tesseract/textord/blobgrid.cpp
+            src/main/cpp/tesseract/textord/edgblob.cpp
+            src/main/cpp/tesseract/textord/linefind.cpp
+            src/main/cpp/tesseract/textord/tablerecog.cpp
+            src/main/cpp/tesseract/textord/sortflts.cpp
+            src/main/cpp/tesseract/textord/underlin.cpp
+            src/main/cpp/tesseract/textord/oldbasel.cpp
+            src/main/cpp/tesseract/textord/fpchop.cpp
+            src/main/cpp/tesseract/textord/wordseg.cpp
+            src/main/cpp/tesseract/textord/tabvector.cpp
+            src/main/cpp/tesseract/textord/edgloop.cpp
+            src/main/cpp/tesseract/textord/drawtord.cpp
+            src/main/cpp/tesseract/textord/imagefind.cpp
+            src/main/cpp/tesseract/textord/bbgrid.cpp
+            src/main/cpp/tesseract/textord/pithsync.cpp
+            src/main/cpp/tesseract/textord/colpartition.cpp
+            src/main/cpp/tesseract/textord/gap_map.cpp
+            src/main/cpp/tesseract/classify/sampleiterator.cpp
+            src/main/cpp/tesseract/classify/cutoffs.cpp
+            src/main/cpp/tesseract/classify/normmatch.cpp
+            src/main/cpp/tesseract/classify/errorcounter.cpp
+            src/main/cpp/tesseract/classify/intfeaturemap.cpp
+            src/main/cpp/tesseract/classify/normfeat.cpp
+            src/main/cpp/tesseract/classify/intproto.cpp
+            src/main/cpp/tesseract/classify/kdtree.cpp
+            src/main/cpp/tesseract/classify/clusttool.cpp
+            src/main/cpp/tesseract/classify/mastertrainer.cpp
+            src/main/cpp/tesseract/classify/trainingsample.cpp
+            src/main/cpp/tesseract/classify/blobclass.cpp
+            src/main/cpp/tesseract/classify/adaptmatch.cpp
+            src/main/cpp/tesseract/classify/intfeaturespace.cpp
+            src/main/cpp/tesseract/classify/intmatcher.cpp
+            src/main/cpp/tesseract/classify/fpoint.cpp
+            src/main/cpp/tesseract/classify/shapeclassifier.cpp
+            src/main/cpp/tesseract/classify/ocrfeatures.cpp
+            src/main/cpp/tesseract/classify/trainingsampleset.cpp
+            src/main/cpp/tesseract/classify/shapetable.cpp
+            src/main/cpp/tesseract/classify/outfeat.cpp
+            src/main/cpp/tesseract/classify/protos.cpp
+            src/main/cpp/tesseract/classify/mfoutline.cpp
+            src/main/cpp/tesseract/classify/classify.cpp
+            src/main/cpp/tesseract/classify/mfdefs.cpp
+            src/main/cpp/tesseract/classify/mfx.cpp
+            src/main/cpp/tesseract/classify/adaptive.cpp
+            src/main/cpp/tesseract/classify/float2int.cpp
+            src/main/cpp/tesseract/classify/picofeat.cpp
+            src/main/cpp/tesseract/classify/intfx.cpp
+            src/main/cpp/tesseract/classify/featdefs.cpp
+            src/main/cpp/tesseract/classify/mf.cpp
+            src/main/cpp/tesseract/classify/intfeaturedist.cpp
+            src/main/cpp/tesseract/classify/cluster.cpp
+            src/main/cpp/tesseract/classify/tessclassifier.cpp
+            src/main/cpp/tesseract/neural_networks/runtime/input_file_buffer.cpp
+            src/main/cpp/tesseract/neural_networks/runtime/neuron.cpp
+            src/main/cpp/tesseract/neural_networks/runtime/neural_net.cpp
+            src/main/cpp/tesseract/neural_networks/runtime/sigmoid_table.cpp
+            src/main/cpp/tesseract/ccstruct/pageres.cpp
+            src/main/cpp/tesseract/ccstruct/publictypes.cpp
+            src/main/cpp/tesseract/ccstruct/ocrpara.cpp
+            src/main/cpp/tesseract/ccstruct/blobs.cpp
+            src/main/cpp/tesseract/ccstruct/blamer.cpp
+            src/main/cpp/tesseract/ccstruct/boxword.cpp
+            src/main/cpp/tesseract/ccstruct/polyaprx.cpp
+            src/main/cpp/tesseract/ccstruct/vecfuncs.cpp
+            src/main/cpp/tesseract/ccstruct/mod128.cpp
+            src/main/cpp/tesseract/ccstruct/stepblob.cpp
+            src/main/cpp/tesseract/ccstruct/matrix.cpp
+            src/main/cpp/tesseract/ccstruct/dppoint.cpp
+            src/main/cpp/tesseract/ccstruct/genblob.cpp
+            src/main/cpp/tesseract/ccstruct/rejctmap.cpp
+            src/main/cpp/tesseract/ccstruct/blread.cpp
+            src/main/cpp/tesseract/ccstruct/ccstruct.cpp
+            src/main/cpp/tesseract/ccstruct/imagedata.cpp
+            src/main/cpp/tesseract/ccstruct/params_training_featdef.cpp
+            src/main/cpp/tesseract/ccstruct/ocrblock.cpp
+            src/main/cpp/tesseract/ccstruct/polyblk.cpp
+            src/main/cpp/tesseract/ccstruct/rect.cpp
+            src/main/cpp/tesseract/ccstruct/pdblock.cpp
+            src/main/cpp/tesseract/ccstruct/werd.cpp
+            src/main/cpp/tesseract/ccstruct/split.cpp
+            src/main/cpp/tesseract/ccstruct/ratngs.cpp
+            src/main/cpp/tesseract/ccstruct/fontinfo.cpp
+            src/main/cpp/tesseract/ccstruct/ocrrow.cpp
+            src/main/cpp/tesseract/ccstruct/seam.cpp
+            src/main/cpp/tesseract/ccstruct/normalis.cpp
+            src/main/cpp/tesseract/ccstruct/points.cpp
+            src/main/cpp/tesseract/ccstruct/otsuthr.cpp
+            src/main/cpp/tesseract/ccstruct/blobbox.cpp
+            src/main/cpp/tesseract/ccstruct/quspline.cpp
+            src/main/cpp/tesseract/ccstruct/quadlsq.cpp
+            src/main/cpp/tesseract/ccstruct/linlsq.cpp
+            src/main/cpp/tesseract/ccstruct/statistc.cpp
+            src/main/cpp/tesseract/ccstruct/coutln.cpp
+            src/main/cpp/tesseract/ccstruct/detlinefit.cpp
+            src/main/cpp/tesseract/ccstruct/boxread.cpp
+            src/main/cpp/tesseract/cutil/cutil_class.cpp
+            src/main/cpp/tesseract/cutil/danerror.cpp
+            src/main/cpp/tesseract/cutil/emalloc.cpp
+            src/main/cpp/tesseract/cutil/freelist.cpp
+            src/main/cpp/tesseract/cutil/oldlist.cpp
+            src/main/cpp/tesseract/cutil/callcpp.cpp
+            src/main/cpp/tesseract/cutil/bitvec.cpp
+            src/main/cpp/tesseract/cutil/structures.cpp
+            src/main/cpp/tesseract/cutil/efio.cpp
+            src/main/cpp/tesseract/cutil/listio.cpp
+            src/main/cpp/tesseract/cutil/cutil.cpp
+            src/main/cpp/tesseract/cube/tess_lang_model.cpp
+            src/main/cpp/tesseract/cube/altlist.cpp
+            src/main/cpp/tesseract/cube/cube_line_segmenter.cpp
+            src/main/cpp/tesseract/cube/feature_chebyshev.cpp
+            src/main/cpp/tesseract/cube/beam_search.cpp
+            src/main/cpp/tesseract/cube/char_samp.cpp
+            src/main/cpp/tesseract/cube/cube_object.cpp
+            src/main/cpp/tesseract/cube/char_samp_enum.cpp
+            src/main/cpp/tesseract/cube/word_altlist.cpp
+            src/main/cpp/tesseract/cube/feature_hybrid.cpp
+            src/main/cpp/tesseract/cube/con_comp.cpp
+            src/main/cpp/tesseract/cube/word_size_model.cpp
+            src/main/cpp/tesseract/cube/feature_bmp.cpp
+            src/main/cpp/tesseract/cube/char_bigrams.cpp
+            src/main/cpp/tesseract/cube/cube_line_object.cpp
+            src/main/cpp/tesseract/cube/cube_tuning_params.cpp
+            src/main/cpp/tesseract/cube/cached_file.cpp
+            src/main/cpp/tesseract/cube/char_altlist.cpp
+            src/main/cpp/tesseract/cube/hybrid_neural_net_classifier.cpp
+            src/main/cpp/tesseract/cube/word_unigrams.cpp
+            src/main/cpp/tesseract/cube/char_samp_set.cpp
+            src/main/cpp/tesseract/cube/search_node.cpp
+            src/main/cpp/tesseract/cube/classifier_factory.cpp
+            src/main/cpp/tesseract/cube/word_list_lang_model.cpp
+            src/main/cpp/tesseract/cube/cube_search_object.cpp
+            src/main/cpp/tesseract/cube/bmp_8.cpp
+            src/main/cpp/tesseract/cube/cube_utils.cpp
+            src/main/cpp/tesseract/cube/char_set.cpp
+            src/main/cpp/tesseract/cube/search_column.cpp
+            src/main/cpp/tesseract/cube/conv_net_classifier.cpp
+            src/main/cpp/tesseract/cube/tess_lang_mod_edge.cpp
+            src/main/cpp/tesseract/viewer/svpaint.cpp
+            src/main/cpp/tesseract/viewer/svmnode.cpp
+            src/main/cpp/tesseract/viewer/scrollview.cpp
+            src/main/cpp/tesseract/viewer/svutil.cpp
+            src/main/cpp/tesseract/api/capi.cpp
+            src/main/cpp/tesseract/api/renderer.cpp
+            src/main/cpp/tesseract/api/pdfrenderer.cpp
+            src/main/cpp/tesseract/api/baseapi.cpp
+            # src/main/cpp/tesseract/api/tesseractmain.cpp
+            src/main/cpp/tesseract/wordrec/segsearch.cpp
+            src/main/cpp/tesseract/wordrec/wordrec.cpp
+            src/main/cpp/tesseract/wordrec/render.cpp
+            src/main/cpp/tesseract/wordrec/drawfx.cpp
+            src/main/cpp/tesseract/wordrec/outlines.cpp
+            src/main/cpp/tesseract/wordrec/associate.cpp
+            src/main/cpp/tesseract/wordrec/lm_pain_points.cpp
+            src/main/cpp/tesseract/wordrec/findseam.cpp
+            src/main/cpp/tesseract/wordrec/language_model.cpp
+            src/main/cpp/tesseract/wordrec/chopper.cpp
+            src/main/cpp/tesseract/wordrec/gradechop.cpp
+            src/main/cpp/tesseract/wordrec/wordclass.cpp
+            src/main/cpp/tesseract/wordrec/lm_state.cpp
+            src/main/cpp/tesseract/wordrec/params_model.cpp
+            src/main/cpp/tesseract/wordrec/lm_consistency.cpp
+            src/main/cpp/tesseract/wordrec/pieces.cpp
+            src/main/cpp/tesseract/wordrec/plotedges.cpp
+            src/main/cpp/tesseract/wordrec/tface.cpp
+            src/main/cpp/tesseract/wordrec/chop.cpp
+            src/main/cpp/tesseract/opencl/openclwrapper.cpp
+)
+
+target_compile_definitions(com-reviso-marcello-ocrlab-tesseract PRIVATE HAVE_CONFIG_H USE_STD_NAMESPACE)
+
+add_library( # Sets the name of the library.
              com-reviso-marcello-ocrlab-native-lib
 
              # Sets the library as a shared library.
@@ -393,7 +660,8 @@ add_library( # Sets the name of the library.
              src/main/cpp/native-lib/native-lib-tiff.cpp
              src/main/cpp/native-lib/native-lib-png.cpp
              src/main/cpp/native-lib/native-lib-jpeg.cpp
-             src/main/cpp/native-lib/native-lib-lept.cpp)
+             src/main/cpp/native-lib/native-lib-lept.cpp
+)
 
 # Specifies a path to native header files.
 include_directories(
@@ -403,7 +671,22 @@ include_directories(
     src/main/cpp/tiff
     src/main/cpp/lept
     src/main/cpp/native-lib
-    )
+    src/main/cpp/tesseract
+    src/main/cpp/tesseract/ccmain
+    src/main/cpp/tesseract/ccutil
+    src/main/cpp/tesseract/dict
+    src/main/cpp/tesseract/textord
+    src/main/cpp/tesseract/classify
+    src/main/cpp/tesseract/neural_networks
+    src/main/cpp/tesseract/neural_networks/runtime
+    src/main/cpp/tesseract/ccstruct
+    src/main/cpp/tesseract/cutil
+    src/main/cpp/tesseract/cube
+    src/main/cpp/tesseract/viewer
+    src/main/cpp/tesseract/api
+    src/main/cpp/tesseract/wordrec
+    src/main/cpp/tesseract/opencl
+)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because system libraries are included in the search path by
@@ -443,15 +726,22 @@ target_link_libraries( # Specifies the target library.
                        com-reviso-marcello-ocrlab-tiff
                        com-reviso-marcello-ocrlab-png
                        com-reviso-marcello-ocrlab-jpeg
-                       com-reviso-marcello-ocrlab-z
 
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )
 
 target_link_libraries( # Specifies the target library.
-                       com-reviso-marcello-ocrlab-native-lib
+                       com-reviso-marcello-ocrlab-tesseract
                        com-reviso-marcello-ocrlab-lept
+
+                       # Links the target library to the log library
+                       # included in the NDK.
+                       ${log-lib})
+
+target_link_libraries( # Specifies the target library.
+                       com-reviso-marcello-ocrlab-native-lib
+                       com-reviso-marcello-ocrlab-tesseract
 
                        # Links the target library to the log library
                        # included in the NDK.
