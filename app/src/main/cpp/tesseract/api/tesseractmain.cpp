@@ -17,6 +17,8 @@
 *
 **********************************************************************/
 
+#if 0 /* in case someone actually tries to compile this */
+
 // Include automatically generated configuration file if running autoconf
 #ifdef HAVE_CONFIG_H
 #include "config_auto.h"
@@ -439,3 +441,5 @@ int main(int argc, char **argv) {
   PERF_COUNT_END
   return 0;                      // Normal exit
 }
+
+#endif

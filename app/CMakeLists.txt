@@ -621,7 +621,7 @@ add_library( # Sets the name of the library.
             src/main/cpp/tesseract/api/renderer.cpp
             src/main/cpp/tesseract/api/pdfrenderer.cpp
             src/main/cpp/tesseract/api/baseapi.cpp
-            # src/main/cpp/tesseract/api/tesseractmain.cpp
+            src/main/cpp/tesseract/api/tesseractmain.cpp
             src/main/cpp/tesseract/wordrec/segsearch.cpp
             src/main/cpp/tesseract/wordrec/wordrec.cpp
             src/main/cpp/tesseract/wordrec/render.cpp
