@@ -37,8 +37,8 @@ jobject native_lib_lept_Rotate(JNIEnv *env, jobject inputStream) {
     rotflag = L_ROTATE_AREA_MAP;
 /*    rotflag = L_ROTATE_SHEAR;     */
 /*    rotflag = L_ROTATE_SAMPLING;   */
-    deg2rad = 3.1415926535 / 180.;
-    ang = 90.0 * deg2rad;
+    deg2rad = 3.1415926535f / 180.f;
+    ang = 90.0f * deg2rad;
     pixGetDimensions(pixs, &w, &h, NULL);
     PIX *pixd = pixRotate(pixs, ang, rotflag, L_BRING_IN_WHITE, w, h);
 
